@@ -94,20 +94,13 @@ module.exports={
 
                             if (user.isActive) {
 
-                                // const data = {
-                                //     access: user.toJSON(),
-                                //     refresh: { _id: user._id, password: user.password },
-                                //     shortExpiresIn: '10m',
-                                //     longExpiresIn: '3d'
-                                // }
-
-                                // res.send({
-                                //     error: false,
-                                //     token: {
-                                //         access: jwt.sign(data.access, process.env.ACCESS_KEY, { expiresIn: data.shortExpiresIn }),
-                                //         refresh: null
-                                //     }
-                                // })
+                                res.send({
+                                    error: false,
+                                    token: {
+                                        access: jwt.sign(user.toJSON(), process.env.ACCESS_KEY, { expiresIn: '10m' }),
+                                        refresh: null
+                                    }
+                                })
 
                                 res.send({
                                     error: false,
