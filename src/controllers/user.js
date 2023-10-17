@@ -22,8 +22,6 @@ module.exports={
         details: res.getModelListDetails(User),
         data
     })
-        
-
     },
     
     create: async(req,res)=>{
@@ -36,35 +34,46 @@ module.exports={
         error:false,
         data
        })
-
-
     },
    
+
     read: async(req,res)=>{
         /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Get Single User"
         */
-
-
+       const data =await User.findOne({_id : req.params.id})  //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
+       res.status(200).send({
+        error:false,
+        data
+       })
     },
     
+
     update: async(req,res)=>{
         /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Update User"
         */
-
-
+       const data = await User.updateOne({_id: req.params.id}, req.body)
+       res.status(202).send({
+        error:false,
+        data,
+        new: await User.findOne({_id : req.params.id})
+       })
     },
    
+
     delete: async(req,res)=>{
           /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Delete User"
         */
-
-
+       const data= await User.deleteOne({_id: req.params.id})
+       res.status(data.deletedCount ? 204 : 404).send({
+        error: !data.deletedCount,     //->hata durumu True false geleceği için erorr karşılığı tam tersi olmalı
+        data
+       })
     },
    
 }
