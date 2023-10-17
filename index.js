@@ -28,3 +28,29 @@ require('express-async-errors')
 
 // Connect to DB:
 const {dbConnection} = require('./src/configs/dbConnection')
+dbConnection()
+
+
+/* ------------------------------------------------------- */
+// Middlewares:
+
+
+
+/* ------------------------------------------------------- */
+// Routes:
+
+
+
+/* ------------------------------------------------------- */
+//errorHandler
+app.use(require('./src/middlewares/errorHandler'))
+
+
+// RUN SERVER:
+app.listen(PORT,()=> console.log('http://127.0.0.1:' + PORT); )
+
+
+
+/* ------------------------------------------------------- */
+// Syncronization :
+//require('./src/helpers/sync')()
