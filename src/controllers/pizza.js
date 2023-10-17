@@ -1,6 +1,6 @@
 "use strict"
 //Pizza controller
-const User = require('../models/pizza')
+const Pizza = require('../models/pizza')
 
 module.exports={
     list: async(req,res)=>{

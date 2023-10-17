@@ -1,6 +1,6 @@
 "use strict"
 //Order controller
-const User = require('../models/order')
+const Order = require('../models/order')
 
 module.exports={
     list: async(req,res)=>{

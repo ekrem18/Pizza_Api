@@ -1,6 +1,6 @@
 "use strict"
 
-const User = require('../models/topping')
+const Topping = require('../models/topping')
 
 module.exports={
     list: async(req,res)=>{
