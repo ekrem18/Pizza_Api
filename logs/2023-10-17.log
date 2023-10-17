@@ -1,3 +1,0 @@
-::ffff:127.0.0.1 - - [17/Oct/2023:18:33:50 +0000] "GET /orders HTTP/1.1" 200 119 "-" "Thunder Client (https://www.thunderclient.com)"
-::ffff:127.0.0.1 - - [17/Oct/2023:18:33:56 +0000] "GET /toppings HTTP/1.1" 200 119 "-" "Thunder Client (https://www.thunderclient.com)"
-::ffff:127.0.0.1 - - [17/Oct/2023:18:34:00 +0000] "GET /pizzas HTTP/1.1" 200 119 "-" "Thunder Client (https://www.thunderclient.com)"
