@@ -19,9 +19,9 @@ const app = express()
 require('dotenv').config()
 const PORT = process.env?.PORT || 8000
 
-
 // asyncErrors to errorHandler:
 require('express-async-errors')
+
 
 
 /* ------------------------------------------------------- */
@@ -32,13 +32,16 @@ dbConnection()
 
 
 
+
 /* ------------------------------------------------------- */
 // Middlewares:
 
 // Accept JSON:
 app.use(express.json())
+
 // Run Logger:
 app.use(require('./src/middlewares/logger'))
+
 // res.getModelList():
 app.use(require('./src/middlewares/findSearchSortPage'))
 
@@ -47,6 +50,14 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 
 /* ------------------------------------------------------- */
 // Routes:
+
+// HomePath:
+app.all('/', (req,res)=>{
+    res.send({
+        error:false,
+        message: 'Welcome to PIZZA API'
+    })
+})
 
 
 
