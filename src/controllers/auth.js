@@ -26,6 +26,23 @@ module.exports={
        const {username, password} = req.body                   //------> req.body'den username ve password gelecek onları alıyorum      
        if(username && password) {                              //------> bana bu gelen password ve username'li olan user ara 
             const user = User.findOne({username, password})    //------> şifre normal girilse de user modeli password'de bulunan set metodu şifreleyerek gönderiyor   
+            if(user){
+                if(user.isActive){
+                    res.send({
+                        error: false,
+                        token:{
+                            access: jwt.sign(user, proccess.env.ACCESS_KEY, {expiresIn: '10m'}),
+                            refresh: jwt.sign({_id: user._id, password: user.password}, process.env.REFRESH_KEY, {expiresIn: '3d'}),
+                        }
+                    })
+                }else{
+                    res.errorStatusCode = 401
+                    throw new Error('Account is NOT ACTIVE')
+                }
+            }else{
+                res.errorStatusCode = 401
+                throw new Error('Wrong username or password')
+            }
 
        }else {
             res.errorStatusCode = 401
