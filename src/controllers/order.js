@@ -1,6 +1,7 @@
 "use strict";
 //Order controller
 const Order = require("../models/order");
+const Pizza = require("../models/pizza")
 
 module.exports = {
   list: async (req, res) => {
@@ -30,6 +31,8 @@ module.exports = {
             #swagger.summary = "Create Order"
         */
     //Calculations
+    req.body.quantity = req.body?.quantity || 1                       //-->default quantity 1 oldu
+
     if(!req.body?.price){                                             //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
         const dataPizza= await Pizza.findOne({_id: req.body.pizzaId}) //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
         req.body.price= dataPizza.price                               //--> bu datayı da body'e price olarak gönder
@@ -58,16 +61,27 @@ module.exports = {
 
   update: async (req, res) => {
     /*
-            #swagger.tags = ["Orders"]
-            #swagger.summary = "Update Order"
-        */
-    const data = await Order.updateOne({ _id: req.params.id }, req.body);
+        #swagger.tags = ["Orders"]
+        #swagger.summary = "Update Order"
+    */
+
+    // Calculatings:
+    req.body.quantity = req.body?.quantity || 1 // default: 1
+    if (!req.body?.price) {
+        const dataOrder = await Order.findOne({ _id: req.params.id }, { _id: 0, price: 1 })
+        req.body.price = dataOrder.price
+    }
+    req.body.totalPrice = req.body.price * req.body.quantity
+
+    const data = await Order.updateOne({ _id: req.params.id }, req.body)
+
     res.status(202).send({
-      error: false,
-      data,
-      new: await Order.findOne({ _id: req.params.id }),
-    });
-  },
+        error: false,
+        data,
+        new: await Order.findOne({ _id: req.params.id })
+    })
+
+},
 
   delete: async (req, res) => {
     /*
