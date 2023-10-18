@@ -39,6 +39,12 @@ dbConnection()
 // Accept JSON:
 app.use(express.json())
 
+//accessToken Control
+app.use((req, res, next) => {
+    const auth = req.header?.authorization //Bearer jkdh.TOken....
+    const accessToken = auth ? auth.split(' ')[1] : null 
+})
+
 // Run Logger:
 app.use(require('./src/middlewares/logger'))
 
