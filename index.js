@@ -74,7 +74,9 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 app.all('/', (req,res)=>{
     res.send({
         error:false,
-        message: 'Welcome to PIZZA API'
+        message: 'Welcome to PIZZA API',
+        isLogin: req.isLogin,
+        user: req.userData
     })
 })
 
