@@ -17,7 +17,7 @@ module.exports = {
                 </ul>
             `
         */
-    const data = await res.getModelList(Order);
+    const data = await res.getModelList(Order, {} , ['pizzaId', 'userId']); //---> populate yapıyorum
     res.status(200).send({
       error: false,
       details: await res.getModelListDetails(Order),
