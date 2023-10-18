@@ -26,12 +26,14 @@ const OrderSchema = new mongoose.Schema({
    
     quantity : {
         type: Number,
-        required: true,
+        default: 1,
+        // required: true,
     },
 
     price : {
         type: Number,
-        required: true,
+        default: 0,
+        // required: true,
     },
     
     totalPrice : {
@@ -47,3 +49,10 @@ module.exports = mongoose.model('Order', OrderSchema)
 
 
 
+// {
+//     "userId": "652e8ae6b2a8c574b4fcc069",
+//     "pizzaId": "652fa91b30970082bc400532",
+//     "size":"XLarge",
+//     "price": 99.99,
+//     "quantity": 2
+//   }
