@@ -1,10 +1,10 @@
-"use strict"
+"use strict";
 //Order controller
-const Order = require('../models/order')
+const Order = require("../models/order");
 
-module.exports={
-    list: async(req,res)=>{
-         /*
+module.exports = {
+  list: async (req, res) => {
+    /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "List Orders"
             #swagger.description = `
@@ -16,64 +16,68 @@ module.exports={
                 </ul>
             `
         */
-       const data = await res.getModelList(Order)
-       res.status(200).send({
-        error: false,
-        details:await res.getModelListDetails(Order),
-        data
-    })
-    },
-    
-    create: async(req,res)=>{
-        /*
+    const data = await res.getModelList(Order);
+    res.status(200).send({
+      error: false,
+      details: await res.getModelListDetails(Order),
+      data,
+    });
+  },
+
+  create: async (req, res) => {
+    /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Create Order"
         */
-       const data =await Order.create(req.body)
-       res.status(201).send({
-        error:false,
-        data
-       })
-    },
-   
+    //Calculations
+    if(!req.body?.price){                                             //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
+        const dataPizza= await Pizza.findOne({_id: req.body.pizzaId}) //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
+        req.body.price= dataPizza.price                               //--> bu datayı da body'e price olarak gönder
+    }
 
-    read: async(req,res)=>{
-        /*
+    req.body.totalPrice = req.body.quantity * req.body.price;
+
+    const data = await Order.create(req.body);
+    res.status(201).send({
+      error: false,
+      data,
+    });
+  },
+
+  read: async (req, res) => {
+    /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Get Single Order"
         */
-       const data =await Order.findOne({_id : req.params.id})  //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
-       res.status(200).send({
-        error:false,
-        data
-       })
-    },
-    
+    const data = await Order.findOne({ _id: req.params.id }); //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
+    res.status(200).send({
+      error: false,
+      data,
+    });
+  },
 
-    update: async(req,res)=>{
-        /*
+  update: async (req, res) => {
+    /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Update Order"
         */
-       const data = await Order.updateOne({_id: req.params.id}, req.body)
-       res.status(202).send({
-        error:false,
-        data,
-        new: await Order.findOne({_id : req.params.id})
-       })
-    },
-   
+    const data = await Order.updateOne({ _id: req.params.id }, req.body);
+    res.status(202).send({
+      error: false,
+      data,
+      new: await Order.findOne({ _id: req.params.id }),
+    });
+  },
 
-    delete: async(req,res)=>{
-          /*
+  delete: async (req, res) => {
+    /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Delete Order"
         */
-       const data= await Order.deleteOne({_id: req.params.id})
-       res.status(data.deletedCount ? 204 : 404).send({
-        error: !data.deletedCount,     //->hata durumu True false geleceği için erorr karşılığı tam tersi olmalı
-        data
-       })
-    },
-   
-}
+    const data = await Order.deleteOne({ _id: req.params.id });
+    res.status(data.deletedCount ? 204 : 404).send({
+      error: !data.deletedCount, //->hata durumu True false geleceği için erorr karşılığı tam tersi olmalı
+      data,
+    });
+  },
+};
