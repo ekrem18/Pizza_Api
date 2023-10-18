@@ -16,9 +16,9 @@ module.exports={
                 </ul>
             `
         */
-       const data = await res.getModelList(Pizza, {}, 'toppings') //-->populate yapıyorum burda. 2.parametrem filtreydi, 3.sü populate yapacağım referansım
-       res.status(200).send({
-        error: false,
+       const data = await res.getModelList(Pizza, {}, 'toppings')   //-->populate yapıyorum burda. 2.parametrem filtreydi, 3.sü populate yapacağım referansım
+       res.status(200).send({                                //--> populate yapıyorum çünkü bilgileri alt tablodan alarak okunaklı ve görünür istiyorum  
+        error: false,                                        //--> pizza modelde yapıyorum bunu. get ile pizzaları görüntülerken toppings id'si haricinde isimler de görünüyor
         details:await res.getModelListDetails(Pizza),
         data
     })
@@ -42,7 +42,7 @@ module.exports={
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Get Single Pizza"
         */
-       const data =await Pizza.findOne({_id : req.params.id})  //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
+       const data =await Pizza.findOne({_id : req.params.id}).populate('toppings')  //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
        res.status(200).send({
         error:false,
         data
