@@ -1,7 +1,7 @@
 "use strict";
 //Order controller
 const Order = require("../models/order");
-const Pizza = require("../models/pizza")
+const Pizza = require("../models/pizza");
 
 module.exports = {
   list: async (req, res) => {
@@ -17,7 +17,12 @@ module.exports = {
                 </ul>
             `
         */
-    const data = await res.getModelList(Order, {} , ['pizzaId', 'userId']); //---> populate yapıyorum
+    // const data = await res.getModelList(Order, {} , ['pizzaId', 'userId']); //---> populate yapıyorum
+    const data = await res.getModelList(Order, {}, [
+      "userId",
+      { path: 'pizzaId', populate: "toppings" }, //-->yukarıda ikili populate yaptıysak da pizza içierisnde bulunan malzeme populatei için ayrıca nested yapı bura
+    ]);
+
     res.status(200).send({
       error: false,
       details: await res.getModelListDetails(Order),
@@ -31,12 +36,16 @@ module.exports = {
             #swagger.summary = "Create Order"
         */
     //Calculations
-    req.body.quantity = req.body?.quantity || 1                                                //-->default quantity 1 oldu
+    req.body.quantity = req.body?.quantity || 1; //-->default quantity 1 oldu
 
-    if(!req.body?.price){                                                                   //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
-        const dataPizza= await Pizza.findOne({_id: req.body.pizzaId}, { _id: 0, price: 1 }) //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
-        req.body.price= dataPizza.price                                                     //--> bu datayı da body'e price olarak gönder
-    }                                                                               //-->find ve findOne 1.parametre filtre iken 2.paramtre istediğim bilgileri gösterir
+    if (!req.body?.price) {
+      //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
+      const dataPizza = await Pizza.findOne(
+        { _id: req.body.pizzaId },
+        { _id: 0, price: 1 }
+      ); //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
+      req.body.price = dataPizza.price; //--> bu datayı da body'e price olarak gönder
+    } //-->find ve findOne 1.parametre filtre iken 2.paramtre istediğim bilgileri gösterir
 
     req.body.totalPrice = req.body.quantity * req.body.price;
 
@@ -66,22 +75,24 @@ module.exports = {
     */
 
     // Calculatings:
-    req.body.quantity = req.body?.quantity || 1 // default: 1
+    req.body.quantity = req.body?.quantity || 1; // default: 1
     if (!req.body?.price) {
-        const dataOrder = await Order.findOne({ _id: req.params.id }, { _id: 0, price: 1 })
-        req.body.price = dataOrder.price
+      const dataOrder = await Order.findOne(
+        { _id: req.params.id },
+        { _id: 0, price: 1 }
+      );
+      req.body.price = dataOrder.price;
     }
-    req.body.totalPrice = req.body.price * req.body.quantity
+    req.body.totalPrice = req.body.price * req.body.quantity;
 
-    const data = await Order.updateOne({ _id: req.params.id }, req.body)
+    const data = await Order.updateOne({ _id: req.params.id }, req.body);
 
     res.status(202).send({
-        error: false,
-        data,
-        new: await Order.findOne({ _id: req.params.id })
-    })
-
-},
+      error: false,
+      data,
+      new: await Order.findOne({ _id: req.params.id }),
+    });
+  },
 
   delete: async (req, res) => {
     /*
