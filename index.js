@@ -40,9 +40,21 @@ dbConnection()
 app.use(express.json())
 
 //accessToken Control
+const jwt = require('jsonwebtoken')
 app.use((req, res, next) => {
     const auth = req.header?.authorization //Bearer jkdh.TOken....
     const accessToken = auth ? auth.split(' ')[1] : null 
+
+    req.isLogin = false
+    req.user = null
+
+    jwt.verify(accessToken, process.env.ACCESS_KEY, function(err , userData){
+        if(userData){
+            req.isLogin = true
+            req.user = userData
+        }
+    } )
+    next()
 })
 
 // Run Logger:
