@@ -5,7 +5,7 @@
 module.exports = {
 
         isLogin: (req, res, next) => {
-           
+        //    return next() ------------------------------------------------->>>>>>>> TEST MODE ACTIVE
             if (req.isLogin) {
                 next()     
             } else {
@@ -17,7 +17,7 @@ module.exports = {
 
 
         isAdmin: (req, res, next) => {
-
+        //return next() ------------------------------------------------->>>>>>>> TEST MODE ACTIVE
             if (req.isLogin && req.user.isAdmin) {
                 next()          
             } else {
