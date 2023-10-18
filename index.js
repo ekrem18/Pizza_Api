@@ -40,22 +40,23 @@ dbConnection()
 app.use(express.json())
 
 //accessToken Control
-const jwt = require('jsonwebtoken')
-app.use((req, res, next) => {
-    const auth = req.header?.authorization //Bearer jkdh.TOken....
-    const accessToken = auth ? auth.split(' ')[1] : null 
+app.use(require('./src/middlewares/authentication'))
+// const jwt = require('jsonwebtoken')
+// app.use((req, res, next) => {
+//     const auth = req.header?.authorization //Bearer jkdh.TOken....
+//     const accessToken = auth ? auth.split(' ')[1] : null 
 
-    req.isLogin = false                     //--> bu kod bloğunda;jwt'yi çektik. sonrasında header ile gelen access key'ini alabilmek için boşluktan aırıp 1.endeksi elime 
-    req.user = null                     //-->aldım. Değerleri her yerde geçerli olması şiçin soldaki değişkenleri tanımladım. 
-                                        //-->elde ettiğim accessToken'ı decrypt ettim. eğer userDatam geldiyse giriş doğrudur mantığıyla req.'ler tanımlandı
-    jwt.verify(accessToken, process.env.ACCESS_KEY, function(err , userData){
-        if(userData){
-            req.isLogin = true      
-            req.user = userData
-        }
-    } )
-    next()
-})
+//     req.isLogin = false                     //--> bu kod bloğunda;jwt'yi çektik. sonrasında header ile gelen access key'ini alabilmek için boşluktan aırıp 1.endeksi elime 
+//     req.user = null                     //-->aldım. Değerleri her yerde geçerli olması şiçin soldaki değişkenleri tanımladım. 
+                                           //-->elde ettiğim accessToken'ı decrypt ettim. eğer userDatam geldiyse giriş doğrudur mantığıyla req.'ler tanımlandı
+//     jwt.verify(accessToken, process.env.ACCESS_KEY, function(err , userData){
+//         if(userData){
+//             req.isLogin = true      
+//             req.user = userData
+//         }
+//     } )
+//     next()
+// })
 
 // Run Logger:
 app.use(require('./src/middlewares/logger'))
