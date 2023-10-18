@@ -76,7 +76,7 @@ app.all('/', (req,res)=>{
         error:false,
         message: 'Welcome to PIZZA API',
         isLogin: req.isLogin,
-        user: req.userData
+        user: req.user
     })
 })
 
