@@ -31,12 +31,12 @@ module.exports = {
             #swagger.summary = "Create Order"
         */
     //Calculations
-    req.body.quantity = req.body?.quantity || 1                       //-->default quantity 1 oldu
+    req.body.quantity = req.body?.quantity || 1                                                //-->default quantity 1 oldu
 
-    if(!req.body?.price){                                             //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
-        const dataPizza= await Pizza.findOne({_id: req.body.pizzaId}) //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
-        req.body.price= dataPizza.price                               //--> bu datayı da body'e price olarak gönder
-    }
+    if(!req.body?.price){                                                                   //--> req.body ile gelen herahngi bir fiyat bilgisi yoksa;
+        const dataPizza= await Pizza.findOne({_id: req.body.pizzaId}, { _id: 0, price: 1 }) //--> body'den pizzaId'ye ulaşarak bilgileri dataPizzaya ata
+        req.body.price= dataPizza.price                                                     //--> bu datayı da body'e price olarak gönder
+    }                                                                               //-->find ve findOne 1.parametre filtre iken 2.paramtre istediğim bilgileri gösterir
 
     req.body.totalPrice = req.body.quantity * req.body.price;
 
