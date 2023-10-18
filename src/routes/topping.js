@@ -3,7 +3,10 @@ const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/topping:
 const topping = require('../controllers/topping')
+const permissions = require('../middlewares/permissions')
+
 //URL:/toppings
+router.use(permissions.isAdmin) //--> aşağıdakilerin hepsi isAdmin oldu
 
 router.route('/')
     .get(topping.list)
@@ -14,8 +17,6 @@ router.route('/:id')
     .put(topping.update)
     .patch(topping.update)
     .delete(topping.delete)
-
-
 
 /* ------------------------------------------------------- */
 module.exports = router

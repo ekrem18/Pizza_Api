@@ -24,7 +24,5 @@ module.exports = {
                 res.errorStatusCode = 403
                 throw new Error("you're not an Admin dude! No Permission!")
             }
-
-
         }
 }
