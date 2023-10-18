@@ -20,7 +20,7 @@ module.exports = {
     // const data = await res.getModelList(Order, {} , ['pizzaId', 'userId']); //---> populate yapıyorum
     const data = await res.getModelList(Order, {}, [
       "userId",
-      { path: 'pizzaId', populate: "toppings" }, //-->yukarıda ikili populate yaptıysak da pizza içierisnde bulunan malzeme populatei için ayrıca nested yapı bura
+      { path: "pizzaId", populate: "toppings" }, //-->yukarıda ikili populate yaptıysak da pizza içierisnde bulunan malzeme populatei için ayrıca nested yapı bura
     ]);
 
     res.status(200).send({
@@ -61,7 +61,10 @@ module.exports = {
             #swagger.tags = ["Orders"]
             #swagger.summary = "Get Single Order"
         */
-    const data = await Order.findOne({ _id: req.params.id }); //-->userId si URL'den gelen id'ye eşit olan user'ı getir data'ya ata
+    const data = await Order.findOne({ _id: req.params.id }).populate([
+      "userId",
+      { path: "pizzaId", populate: "toppings" },
+    ]);
     res.status(200).send({
       error: false,
       data,
