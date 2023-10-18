@@ -51,3 +51,9 @@ module.exports = mongoose.model('User', UserSchema)
 
 
 
+// {
+//     "username": "test",
+//     "password": "1234",
+//     "email": "abc@site.com",
+//     "isAdmin": "true"
+//   }

@@ -16,7 +16,7 @@ module.exports={
                 </ul>
             `
         */
-       const data = await res.getModelList(Pizza)
+       const data = await res.getModelList(Pizza, {}, 'toppings') //-->populate yapıyorum burda. 2.parametrem filtreydi, 3.sü populate yapacağım referansım
        res.status(200).send({
         error: false,
         details:await res.getModelListDetails(Pizza),
