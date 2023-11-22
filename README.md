@@ -6,7 +6,7 @@
 <br>
 <br>
 <h3>About My Project</h3>
-<p> As you can see from the ER diagram, this API service project is built upon four different models:   1- JWT is used for encryption.   2- A permission system is established for pizza orders and the creation of pizzas.      3- Logging is implemented. </p>
+<p> As you can see from the ER diagram, this API service project is built upon four different models.   1- JWT is used for encryption.   2- A permission system is established for pizza orders and the creation of pizzas.      3- Logging is implemented. </p>
 <br>
 <br>
 <h3>What is in this api project?</h3>
@@ -22,7 +22,9 @@
 <br>
 <br>
 <h3>How to install</h3>
-In the project directory, you can run:  `nodemon index.js`
+If you want to clone the project to your local and test it, you must install first "npm init -y" 
+"npm i express dotenv mongoose express-async-errors" and "npm i jsonwebtoken morgan".  
+Finally, in the project directory, you can run:  `nodemon index.js`
 <br>
 <br>
 
